@@ -1,6 +1,6 @@
 #include <sfc/sfc.hpp>
 #include <sfc/expansion/satellaview/satellaview.cpp>
-//#include <sfc/expansion/21fx/21fx.cpp>
+#include <sfc/expansion/21fx/21fx.cpp>
 
 namespace SuperFamicom {
 
@@ -21,7 +21,7 @@ auto ExpansionPort::connect(uint deviceID) -> void {
   switch(deviceID) { default:
   case ID::Device::None: device = new Expansion; break;
   case ID::Device::Satellaview: device = new Satellaview; break;
-//case ID::Device::S21FX: device = new S21FX; break;
+  case ID::Device::S21FX: device = new S21FX; break;
   }
 }
 

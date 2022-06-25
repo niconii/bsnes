@@ -340,8 +340,6 @@ auto Presentation::updateDeviceMenu() -> void {
 
     Group devices;
     for(auto& device : emulator->devices(port.id)) {
-      if(port.name == "Expansion Port" && device.name == "21fx") continue;
-
       MenuRadioItem item{menu};
       item.setAttribute("deviceID", device.id);
       item.setText(tr(device.name));

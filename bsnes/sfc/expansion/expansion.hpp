@@ -1,6 +1,7 @@
 struct Expansion : Thread {
   Expansion();
   virtual ~Expansion();
+  virtual auto main() -> void {}
 };
 
 struct ExpansionPort {
@@ -16,4 +17,4 @@ struct ExpansionPort {
 extern ExpansionPort expansionPort;
 
 #include <sfc/expansion/satellaview/satellaview.hpp>
-//#include <sfc/expansion/21fx/21fx.hpp>
+#include <sfc/expansion/21fx/21fx.hpp>
