@@ -8,6 +8,7 @@ struct CPU : Processor::WDC65816, Thread, PPUcounter {
   auto synchronizeSMP() -> void;
   auto synchronizePPU() -> void;
   auto synchronizeCoprocessors() -> void;
+  auto synchronizeExpansion() -> void;
   static auto Enter() -> void;
   auto main() -> void;
   auto load() -> bool;

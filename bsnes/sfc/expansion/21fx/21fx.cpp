@@ -75,6 +75,7 @@ auto S21FX::main() -> void {
 }
 
 auto S21FX::read(uint addr, uint8 data) -> uint8 {
+  cpu.synchronizeExpansion();
   addr &= 0x40ffff;
 
   if(addr == 0xfffc) return booted ? resetVector & 0xff : (uint8)0x84;
@@ -98,6 +99,7 @@ auto S21FX::read(uint addr, uint8 data) -> uint8 {
 }
 
 auto S21FX::write(uint addr, uint8 data) -> void {
+  cpu.synchronizeExpansion();
   addr &= 0x40ffff;
 
   if(addr == 0x21ff) {

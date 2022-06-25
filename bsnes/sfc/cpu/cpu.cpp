@@ -24,6 +24,12 @@ auto CPU::synchronizeCoprocessors() -> void {
   }
 }
 
+auto CPU::synchronizeExpansion() -> void {
+  if (expansionPort.device && expansionPort.device->clock < 0) {
+    scheduler.resume(expansionPort.device->thread);
+  }
+}
+
 auto CPU::Enter() -> void {
   while(true) {
     scheduler.synchronize();

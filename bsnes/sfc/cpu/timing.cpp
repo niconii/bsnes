@@ -23,6 +23,9 @@ auto CPU::step() -> void {
     if(coprocessor == &icd || coprocessor == &msu1) continue;
     coprocessor->clock -= Clocks * (uint64)coprocessor->frequency;
   }
+  if(expansionPort.device) {
+    expansionPort.device->clock -= Clocks * (uint64)expansionPort.device->frequency;
+  }
 
   if(overclocking.target) {
     overclocking.counter += Clocks;
@@ -30,6 +33,7 @@ auto CPU::step() -> void {
       if constexpr(Synchronize) {
         if(configuration.hacks.coprocessor.delayedSync) return;
         synchronizeCoprocessors();
+        synchronizeExpansion();
       }
       return;
     }
@@ -79,6 +83,7 @@ auto CPU::step() -> void {
   if constexpr(Synchronize) {
     if(configuration.hacks.coprocessor.delayedSync) return;
     synchronizeCoprocessors();
+    synchronizeExpansion();
   }
 }
 
@@ -99,6 +104,7 @@ auto CPU::scanline() -> void {
   synchronizeSMP();
   synchronizePPU();
   synchronizeCoprocessors();
+  synchronizeExpansion();
 
   if(vcounter() == 0) {
     //HDMA setup triggers once every frame

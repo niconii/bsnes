@@ -60,7 +60,7 @@ auto System::runToSaveFast() -> void {
   for(auto coprocessor : cpu.coprocessors) {
     synchronize(coprocessor->thread);
   }
-  synchronize(expansionPort.device->thread);
+  if(expansionPort.device) synchronize(expansionPort.device->thread);
 }
 
 auto System::runToSaveStrict() -> void {
@@ -91,7 +91,9 @@ auto System::runToSaveStrict() -> void {
     }
     if(!synchronized) continue;
 
-    if(!synchronize(expansionPort.device->thread)) continue;
+    if(expansionPort.device && !synchronize(expansionPort.device->thread)) {
+        continue;
+    }
 
     break;
   }
@@ -237,8 +239,6 @@ auto System::power(bool reset) -> void {
   controllerPort1.connect(settings.controllerPort1);
   controllerPort2.connect(settings.controllerPort2);
   expansionPort.connect(settings.expansionPort);
-
-  cpu.coprocessors.append(expansionPort.device);
 
   information.serializeSize[0] = serializeInit(0);
   information.serializeSize[1] = serializeInit(1);
